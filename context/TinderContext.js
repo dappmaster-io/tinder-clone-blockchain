@@ -46,6 +46,49 @@ export const TinderProvider = ({ children }) => {
     setCurrentUser("");
   };
 
+  const requestToCreateUserProfile = async (walletAddress, name) => {
+    try {
+      await fetch(`/api/createUser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userWalletAddress: walletAddress,
+          name: name,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const requestCurrentUserData = async (walletAddress) => {
+    try {
+      const response = await fetch(
+        `/api/fetchCurrentUserData?activeAccount=${walletAddress}`
+      );
+      const data = await response.json();
+
+      setCurrentUser(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const requestUsersData = async (activeAccount) => {
+    try {
+      const response = await fetch(
+        `/api/fetchUsers?activeAccount=${activeAccount}`
+      );
+      const data = await response.json();
+
+      setCardsData(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <TinderContext.Provider
       value={{
