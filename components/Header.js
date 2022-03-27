@@ -14,7 +14,7 @@ const style = {
 
 function Header() {
   return (
-    <div style={style.wrapper}>
+    <div className={style.wrapper}>
       <div className={style.main}>
         {/* Image */}
         <h1 className={style.tinderText}>Tinder</h1>
