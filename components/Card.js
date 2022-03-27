@@ -1,6 +1,10 @@
 import React from "react";
 import { SiTinder } from "react-icons/si";
+import CardFooter from "./CardFooter";
 import CardHeader from "./CardHeader";
+import TinderCardItem from "./TinderCardItem";
+
+const cardsData = [];
 
 function Card() {
   return (
@@ -12,10 +16,15 @@ function Card() {
           <div className={style.noMoreText}>
             No more profiles in your location...
           </div>
-          <div className={style.swipesContainer}></div>
+        </div>
+        <div className={style.swipesContainer}>
+          {/* {cardsData.map((card, index) => (
+              <TinderCardItem card={card} key={index} />
+            ))} */}
+          <TinderCardItem />
         </div>
       </div>
-      {/* Card footer */}
+      <CardFooter />
     </div>
   );
 }
