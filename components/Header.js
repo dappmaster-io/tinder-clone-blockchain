@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import fire from "../assets/fire.png";
+import { useContext } from "react";
+import { TinderContext } from "../context/TinderContext";
 
 const style = {
   wrapper: `h-24 py-11 text-white flex w-screen items-center px-16 justify-between`,
@@ -14,11 +16,16 @@ const style = {
   authButton: `bg-white font-bold text-red-500 px-6 py-3 items-center ml-4 rounded-lg hover:bg-red-500 duration-300 hover:text-white`,
 };
 
-const currentAccount = "0xB1B489039c872c7f772a8cA424d03d35B9EFAA5e";
-
 function Header() {
+  const { connectWallet, currentAccount, disconnectWallet } =
+    useContext(TinderContext);
+
   return (
-    <div className={style.wrapper}>
+    <div
+      className={`${style.wrapper} ${
+        currentAccount ? "bg-gray-900" : "bg-transparent fixed"
+      }`}
+    >
       <div className={style.main}>
         <Image src={fire} alt="fire" height={45} width={45} />
         <h1 className={style.tinderText}>Tinder</h1>
@@ -39,14 +46,14 @@ function Header() {
           {currentAccount ? (
             <>
               <div className={style.currentAccount}>
-                {/* <Image
+                <Image
                   src={
                     "https://moralis.io/wp-content/uploads/2021/05/moralisWhiteLogo.svg"
                   }
                   alt="moralis"
                   height={20}
                   width={20}
-                /> */}
+                />
                 <span className={style.accountAddress}>
                   {currentAccount.slice(0, 6)}...{currentAccount.slice(39)}
                 </span>
