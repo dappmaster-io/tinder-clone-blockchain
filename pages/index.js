@@ -1,3 +1,4 @@
+import Card from "../components/Card";
 import Header from "../components/Header";
 
 const style = {
@@ -9,7 +10,9 @@ export default function Home() {
   return (
     <div className={style.wrapper}>
       <Header />
-      <div className={style.cardsContainer}></div>
+      <div className={style.cardsContainer}>
+        <Card />
+      </div>
     </div>
   );
 }
