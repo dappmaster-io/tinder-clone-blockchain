@@ -1,6 +1,6 @@
 import { client } from "../../lib/sanity";
 
-export const createUserOnSanity = async (req, res) => {
+const createUserOnSanity = async (req, res) => {
   try {
     const userDoc = {
       _type: "users",
@@ -8,9 +8,13 @@ export const createUserOnSanity = async (req, res) => {
       name: req.body.name,
       walletAddress: req.body.userWalletAddress,
     };
-    await client.creatIfNotExists(userDoc);
-    res.status(200).json({ message: "User created" });
+
+    await client.createIfNotExists(userDoc);
+
+    res.status(200).send({ message: "success" });
   } catch (error) {
-    res.status(500).json({ message: "error", data: error.message });
+    res.status(500).send({ message: "error", data: error.message });
   }
 };
+
+export default createUserOnSanity;

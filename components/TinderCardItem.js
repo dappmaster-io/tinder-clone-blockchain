@@ -1,59 +1,66 @@
 import { useState, useContext } from "react";
-// import { TinderContext } from "../context/TinderContext";
+import { TinderContext } from "../context/TinderContext";
 import { FaUndoAlt } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { AiFillStar } from "react-icons/ai";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import TinderCard from "react-tinder-card";
 
-function TinderCardItem() {
-  const onSwipe = (direction, name) => {};
+function TinderCardItem({ card, index }) {
+  const { handleRightSwipe, currentAccount } = useContext(TinderContext);
+
+  const onSwipe = (dir) => {
+    if (dir === "right") {
+      handleRightSwipe(card, currentAccount);
+    }
+  };
 
   return (
     <TinderCard
-      className={style.tinderCardWrapper}
+      className={`${style.tinderCardWrapper} z-${10 - index}`}
+      style={{ zIndex: 999 - index }}
       preventSwipe={["up", "down"]}
       onSwipe={onSwipe}
     >
       <div
         className={style.wrapper}
         style={{
-          backgroundImage: `url("https://thehappypuppysite.com/wp-content/uploads/2019/02/Black-German-Shepherd-website-code-not-in-description-long.jpg")`,
+          backgroundImage: `url(${card.imageUrl})`,
         }}
       >
         <div className={style.space}>
           <div className={style.name}>
-            Lance
-            <span className={style.age}>26</span>
-          </div>
-		  </div>
-          <div className={style.walletAddress}>0xB1...AA5e</div>
-          <div className={style.reactionsContainer}>
-            <div className={`${style.backColors} ${style.buttonContainer}`}>
-              <FaUndoAlt
-                className={`${style.backColors} ${style.buttonSymbol}`}
-                onClick={() => goBack()}
-              />
-            </div>
-            <div className={`${style.xColors} ${style.buttonContainer}`}>
-              <AiOutlineClose
-                className={`${style.xColors} ${style.buttonSymbol}`}
-              />
-            </div>
-            <div className={`${style.starColors} ${style.buttonContainer}`}>
-              <AiFillStar
-                className={`${style.starColors} ${style.buttonSymbol}`}
-              />
-            </div>
-            <div
-              className={`${style.lightningColors} ${style.buttonContainer}`}
-            >
-              <BsFillLightningChargeFill
-                className={`${style.lightningColors} ${style.buttonSymbol}`}
-              />
-            </div>
+            {card.name}
+            <span className={style.age}>{card.age}</span>
           </div>
         </div>
+        <div className={style.walletAddress}>
+          {card.walletAddress.slice(0, 6)}...{card.walletAddress.slice(39)}
+        </div>
+        <div className={style.reactionsContainer}>
+          <div className={`${style.backColors} ${style.buttonContainer}`}>
+            <FaUndoAlt
+              className={`${style.backColors} ${style.buttonSymbol}`}
+              onClick={() => goBack()}
+            />
+          </div>
+          <div className={`${style.xColors} ${style.buttonContainer}`}>
+            <AiOutlineClose
+              className={`${style.xColors} ${style.buttonSymbol}`}
+            />
+          </div>
+          <div className={`${style.starColors} ${style.buttonContainer}`}>
+            <AiFillStar
+              className={`${style.starColors} ${style.buttonSymbol}`}
+            />
+          </div>
+          <div className={`${style.lightningColors} ${style.buttonContainer}`}>
+            <BsFillLightningChargeFill
+              className={`${style.lightningColors} ${style.buttonSymbol}`}
+            />
+          </div>
+        </div>
+      </div>
     </TinderCard>
   );
 }

@@ -43,7 +43,7 @@ export const TinderProvider = ({ children }) => {
 
   const disconnectWallet = async () => {
     await Moralis.User.logOut();
-    setCurrentUser("");
+    setCurrentAccount("");
   };
 
   const requestToCreateUserProfile = async (walletAddress, name) => {
@@ -89,6 +89,54 @@ export const TinderProvider = ({ children }) => {
     }
   };
 
+  const handleRightSwipe = async (cardData, currentUserAddress) => {
+    const likeData = {
+      likedUser: cardData.walletAddress,
+      currentUser: currentUserAddress,
+    };
+
+    try {
+      await fetch("/api/saveLike", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(likeData),
+      });
+
+      const response = await fetch("/api/checkMatches", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(likeData),
+      });
+
+      const responseData = await response.json();
+
+      const matchStatus = responseData.data.isMatch;
+
+      if (matchStatus) {
+        console.log("match");
+
+        const mintData = {
+          walletAddresses: [cardData.walletAddress, currentUserAddress],
+          names: [cardData.name, currentUser.name],
+        };
+
+        await fetch("/api/mintMatchNft", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mintData),
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <TinderContext.Provider
       value={{
@@ -96,6 +144,8 @@ export const TinderProvider = ({ children }) => {
         disconnectWallet,
         currentUser,
         currentAccount,
+        cardsData,
+        handleRightSwipe,
       }}
     >
       {children}

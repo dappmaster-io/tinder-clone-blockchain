@@ -3,10 +3,14 @@ import { SiTinder } from "react-icons/si";
 import CardFooter from "./CardFooter";
 import CardHeader from "./CardHeader";
 import TinderCardItem from "./TinderCardItem";
+import { TinderContext } from "../context/TinderContext";
+import { useContext } from "react";
 
 const cardsData = [];
 
 function Card() {
+  const { cardsData } = useContext(TinderContext);
+
   return (
     <div className={style.wrapper}>
       <CardHeader />
@@ -18,10 +22,9 @@ function Card() {
           </div>
         </div>
         <div className={style.swipesContainer}>
-          {/* {cardsData.map((card, index) => (
-              <TinderCardItem card={card} key={index} />
-            ))} */}
-          <TinderCardItem />
+          {cardsData.map((card, index) => (
+            <TinderCardItem card={card} index={index} key={index} />
+          ))}
         </div>
       </div>
       <CardFooter />

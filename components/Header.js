@@ -40,9 +40,6 @@ function Header() {
 
         <div className={style.rightMenu}>
           <div>ENGLISH</div>
-          {/* <button className={style.authButton} onClick={() => connectWallet()}>
-            Login
-          </button> */}
           {currentAccount ? (
             <>
               <div className={style.currentAccount}>
